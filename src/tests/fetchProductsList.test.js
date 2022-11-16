@@ -26,5 +26,4 @@ describe('Teste a função fetchProductsList', () => {
         done();
       });
   });
-
 });
