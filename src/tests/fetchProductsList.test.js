@@ -19,19 +19,10 @@ describe('Teste a função fetchProductsList', () => {
   });
 
   it('Teste se o retorno da função fetchProductsList com o argumento `computador` é uma estrutura de dados igual ao objeto computadorSearch', async () => {
-    expect(await fetchProductsList('computador')).resolves.toReturn(computadorSearch);
+    expect(await fetchProductsList('computador')).toEqual(computadorSearch);
   });
 
-  it('fetchProductsList retorna um erro quando não é passado nenhum parâmetro', (done) => {
-    fetchProductsList()
-      .then(() => done(new Error('A função não retornou um erro')))
-      .catch((err) => {
-        expect(err.message).toEqual('Termo de busca não informado');
-        done();
-      });
+  it('fetchProductsList retorna um erro quando não é passado nenhum parâmetro', () => {
+    expect(fetchProductsList()).rejects.toThrowError('Termo de busca não informado');
   });
-
-  // it('fetchProductsList retorna data.results', () => {
-  //   expect(fetchProductsList('computador')).resolves.toReturn(computadorSearch);
-  // });
 });
