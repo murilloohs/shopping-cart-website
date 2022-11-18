@@ -1,7 +1,8 @@
 import { searchCep } from './helpers/cepFunctions';
 import './style.css';
-import { createProductElement } from './helpers/shopFunctions';
-import { fetchProductsList } from './helpers/fetchFunctions';
+import { createProductElement, createCartProductElement } from './helpers/shopFunctions';
+import { fetchProductsList, fetchProduct } from './helpers/fetchFunctions';
+import { saveCartID } from './helpers/cartFunctions';
 
 const productsList = document.querySelector('.products');
 
@@ -38,3 +39,19 @@ try {
   errorText.innerHTML = 'Algum erro ocorreu, recarregue a página e tente novamente';
   productsList.appendChild(errorText);
 }
+
+const addToCartBtn = document.querySelectorAll('.product__add');
+const cartList = document.querySelector('.cart__products');
+
+const addToCart = async (element) => {
+  const { target } = element;
+  const id = target.parentElement.firstChild.innerHTML;
+
+  saveCartID(id);
+
+  const productData = await fetchProduct(id);
+  const cartProduct = createCartProductElement(productData);
+  cartList.appendChild(cartProduct);
+};
+
+addToCartBtn.forEach((element) => element.addEventListener('click', addToCart));
