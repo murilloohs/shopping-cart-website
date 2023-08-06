@@ -4,7 +4,7 @@
 
 This project was developed during my time studying at Trybe. It showcases an example website that utilizes the Mercado Livre API to create products and simulate a shopping cart. Users can explore Mercado Livre products and add items to their cart. The interface is designed for desktop use.
 
-![Screenshot](screenshot.png)
+![Screenshot](Screenshot.png)
 
 ## Key Features
 
