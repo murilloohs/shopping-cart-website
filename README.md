@@ -23,3 +23,4 @@ Before running this project, ensure you have the following dependencies installe
 
 1. Clone this repository.
 2. Install dependencies: `npm install`.
+3. Start the server: `npm start`.
