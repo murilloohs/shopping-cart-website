@@ -53,27 +53,6 @@ const onloadPrices = () => {
   }
 };
 
-try {
-  createLoadText();
-  const products = await fetchProductsList('computador');
-  const addProducts = () => {
-    products.forEach((element) => {
-      const { id, title, thumbnail, price } = element;
-      productsList.appendChild(createProductElement({ id, title, thumbnail, price }));
-    });
-    onloadPrices();
-    removeLoadText();
-  };
-  addProducts();
-} catch (error) {
-  removeLoadText();
-  const errorText = document.createElement('p');
-  errorText.className = 'error';
-  errorText.innerHTML = 'Algum erro ocorreu, recarregue a página e tente novamente';
-  productsList.appendChild(errorText);
-}
-
-const addToCartBtn = document.querySelectorAll('.product__add');
 const cartList = document.querySelector('.cart__products');
 
 const productInCart = () => getSavedCartIDs().forEach(async (elementId) => {
@@ -106,6 +85,7 @@ const removePrice = (p) => {
 const addToCart = async (element) => {
   const { target } = element;
   const id = target.parentElement.firstChild.innerHTML;
+  console.log('DENTRO ADDTOCART');
 
   const productData = await fetchProduct(id);
   const cartProduct = createCartProductElement(productData);
@@ -119,4 +99,92 @@ const addToCart = async (element) => {
   indexLi += 1;
 };
 
-addToCartBtn.forEach((element) => element.addEventListener('click', addToCart));
+try {
+  createLoadText();
+
+  // const products = await fetchProductsList('computador');
+  // const addProducts = () => {
+  //   products.forEach((element) => {
+  //     console.log(element);
+  //     const { id, title, thumbnail, price } = element;
+  //     productsList.appendChild(createProductElement({ id, title, thumbnail, price }));
+  //     console.log(productsList);
+  //   });
+  //   onloadPrices();
+  //   removeLoadText();
+  // };
+  // addProducts();
+
+  const fetchData = async () => {
+    const products = await fetchProductsList('computador');
+    const addProducts = () => {
+      products.forEach((element) => {
+        const { id, title, thumbnail, price } = element;
+        productsList.appendChild(createProductElement({ id, title, thumbnail, price }));
+      });
+      onloadPrices();
+      removeLoadText();
+
+      const addToCartBtn = document.querySelectorAll('.product__add');
+      addToCartBtn.forEach((element) => element.addEventListener('click', addToCart));
+    };
+    addProducts();
+  };
+  fetchData();
+} catch (error) {
+  removeLoadText();
+  const errorText = document.createElement('p');
+  errorText.className = 'error';
+  errorText.innerHTML = 'Algum erro ocorreu, recarregue a página e tente novamente';
+  productsList.appendChild(errorText);
+}
+
+// const addToCartBtn = document.querySelectorAll('.product__add');
+// console.log(addToCartBtn);
+// const cartList = document.querySelector('.cart__products');
+
+// const productInCart = () => getSavedCartIDs().forEach(async (elementId) => {
+//   const data = await fetchProduct(elementId);
+//   cartList.appendChild(createCartProductElement(data));
+// });
+
+// productInCart();
+
+// const totalPrice = (p) => {
+//   prices.push(p);
+//   localStorage.setItem('price', JSON.stringify(prices));
+//   const storagePrices = JSON.parse(localStorage.getItem('price'));
+//   const price = storagePrices.reduce((total, actual) => total + actual);
+//   totalElement.innerText = price.toFixed(2);
+// };
+
+// const removePrice = (p) => {
+//   const li = document.querySelectorAll('.cart__product');
+//   li[indexLi].addEventListener('click', () => {
+//     prices = prices.filter((number) => number !== p);
+//     localStorage.setItem('price', JSON.stringify(prices));
+//     const storagePrices = JSON.parse(localStorage.getItem('price'));
+//     const price = storagePrices.reduce((total, actual) => total + actual, 0);
+//     totalElement.innerText = price.toFixed(2);
+//     indexLi -= 1;
+//   });
+// };
+
+// const addToCart = async (element) => {
+//   const { target } = element;
+//   const id = target.parentElement.firstChild.innerHTML;
+//   console.log('DENTRO ADDTOCART');
+
+//   const productData = await fetchProduct(id);
+//   const cartProduct = createCartProductElement(productData);
+//   cartList.appendChild(cartProduct);
+
+//   const p = productData.price;
+
+//   saveCartID(id, p);
+//   totalPrice(p);
+//   removePrice(p);
+//   indexLi += 1;
+// };
+
+// addToCartBtn.forEach((element) => element.addEventListener('click', addToCart));
